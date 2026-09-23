@@ -160,13 +160,14 @@
         <p class="wheel-tip">点击下方转盘，抽取您的专属福利</p>
         
         <!-- 纯CSS绘制的精美转盘 -->
-        <div class="wheel-container" id="wheelBtn" onclick="startWheel()">
+        <!-- 4图转盘 -->
+<div class="wheel-container" id="wheelBtn" onclick="startWheel()">
     <div class="wheel-pointer"></div>
     <div class="wheel-rotate" id="wheelRotate">
-        <div class="wheel-item" style="transform: rotate(0deg);"><img src="1.png" alt="草稿纸"></div>
-        <div class="wheel-item" style="transform: rotate(90deg);"><img src="2.png" alt="果汁笔"></div>
-        <div class="wheel-item" style="transform: rotate(180deg);"><img src="3.png" alt="抽纸"></div>
-        <div class="wheel-item" style="transform: rotate(270deg);"><img src="4.png" alt="四六级词汇"></div>
+        <div class="wheel-item" style="transform: rotate(0deg);"><img src="1.png" alt="草稿纸" class="prize-img"><br><span>草稿纸</span></div>
+        <div class="wheel-item" style="transform: rotate(90deg);"><img src="2.png" alt="果汁笔" class="prize-img"><br><span>果汁笔</span></div>
+        <div class="wheel-item" style="transform: rotate(180deg);"><img src="3.png" alt="抽纸" class="prize-img"><br><span>抽纸</span></div>
+        <div class="wheel-item" style="transform: rotate(270deg);"><img src="4.png" alt="四六级词汇" class="prize-img"><br><span>四六级词汇</span></div>
     </div>
 </div>
         
@@ -177,11 +178,11 @@
 
 <!-- 补充转盘CSS样式（加在<style>标签里） -->
 <style>
-.wheel-container { position: relative; width: 280px; height: 280px; margin: 15px auto; cursor: pointer; }
+.wheel-container { position: relative; width: 340px; height: 340px; margin: 15px auto; cursor: pointer; }
 .wheel-pointer { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 25px solid #e74c3c; z-index: 10; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); }
 .wheel-rotate { width: 100%; height: 100%; border-radius: 50%; position: relative; overflow: hidden; border: 8px solid #fff; box-shadow: 0 0 15px rgba(231, 76, 60, 0.4); background: conic-gradient(#ff9a9e 0deg 90deg, #a18cd1 90deg 180deg, #fbc2eb 180deg 270deg, #84fab0 270deg 360deg); transition: transform 3s cubic-bezier(0.25, 0.1, 0.25, 1); }
-.wheel-item { position: absolute; top: 50%; left: 50%; width: 140px; height: 140px; transform-origin: 0% 0%; display: flex; justify-content: center; align-items: flex-start; padding-top: 10px; }
-.wheel-item img { width: 60px; height: 60px; border-radius: 8px; object-fit: cover; border: 2px solid #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+.wheel-item { position: absolute; top: 50%; left: 50%; width: 170px; height: 170px; transform-origin: 0% 0%; display: flex; flex-direction: column; justify-content: center; align-items: center; padding-bottom: 10px; font-size: 13px; font-weight: bold; color: #333; }
+.prize-img { width: 70px; height: 70px; object-fit: cover; border-radius: 8px; margin-bottom: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
     position: relative;
     width: 260px;
     height: 260px;
@@ -305,11 +306,34 @@
         }
     });
 
-    function startWheel() {
-        closeModal('wheelOverlay');
-        setTimeout(() => { document.getElementById('infoOverlay').classList.add('active'); }, 200);
+   function startWheel() {
+    // 1. 关闭转盘弹窗
+    closeModal('wheelOverlay');
+    
+    // 2. 播放旋转动画
+    const wheel = document.getElementById('wheelRotate');
+    if (wheel) {
+        wheel.style.transition = 'transform 2.5s cubic-bezier(0.25, 0.1, 0.25, 1)';
+        // 随机转 4 到 8 圈
+        wheel.style.transform = `rotate(${Math.floor(Math.random() * 360) + 1440}deg)`;
     }
-
+    
+    // 3. 延迟 2.5 秒（等动画结束），弹出地址输入弹窗并提示奖品
+    setTimeout(() => {
+        // 这里模拟随机抽中了一个奖品
+        const prizes = ["2000张草稿纸", "百乐果汁笔3支", "心相印抽纸", "四六级词汇书"];
+        const won = prizes[Math.floor(Math.random() * prizes.length)];
+        
+        // 在转盘下方显示抽中的奖品文字
+        const prizeTextEl = document.getElementById('prizeText');
+        if (prizeTextEl) {
+            prizeTextEl.innerText = `🎉 恭喜您抽中了：${won}！`;
+        }
+        
+        // 弹出填写地址的窗口
+        document.getElementById('infoOverlay').classList.add('active');
+    }, 2500); 
+}
     function closeModal(id) { document.getElementById(id).classList.remove('active'); }
 
     document.getElementById('infoForm').addEventListener('submit', async function(e) {
