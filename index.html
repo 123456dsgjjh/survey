@@ -216,16 +216,15 @@
     const { createClient } = supabase;
     const _supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    async function updateClickCount() {
-        try {
-            const { count, error } = await _supabase
-                .from('prize_winners')
-                .select('*', { count: 'exact', head: true });
-            if (!error && count !== null) {
-                document.getElementById('clickCount').innerText = count;
-            }
-        } catch (err) { console.error('获取人数失败', err); }
+        // 生成一个随机数（比如 500 到 2000 之间），让页面看起来热闹
+    function updateClickCount() {
+        const min = 100;  // 最少显示多少人
+        const max = 400; // 最多显示多少人
+        const randomCount = Math.floor(Math.random() * (max - min + 1)) + min;
+        document.getElementById('clickCount').innerText = randomCount;
     }
+    
+    // 页面加载时，直接生成随机数
     updateClickCount();
 
     document.getElementById('surveyForm').addEventListener('submit', async function(e) {
