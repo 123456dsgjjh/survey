@@ -161,22 +161,14 @@
         
         <!-- 纯CSS绘制的精美转盘 -->
         <div class="wheel-container" id="wheelBtn" onclick="startWheel()">
-            <div class="wheel-pointer"></div>
-            <div class="wheel-rotate">
-                <div class="wheel-item" style="transform: rotate(0deg);">
-                    <span>草稿纸</span>
-                </div>
-                <div class="wheel-item" style="transform: rotate(90deg);">
-                    <span>果汁笔</span>
-                </div>
-                <div class="wheel-item" style="transform: rotate(180deg);">
-                    <span>抽纸</span>
-                </div>
-                <div class="wheel-item" style="transform: rotate(270deg);">
-                    <span>四六级词汇</span>
-                </div>
-            </div>
-        </div>
+    <div class="wheel-pointer"></div>
+    <div class="wheel-rotate" id="wheelRotate">
+        <div class="wheel-item" style="transform: rotate(0deg);"><img src="1.png" alt="草稿纸"></div>
+        <div class="wheel-item" style="transform: rotate(90deg);"><img src="2.png" alt="果汁笔"></div>
+        <div class="wheel-item" style="transform: rotate(180deg);"><img src="3.png" alt="抽纸"></div>
+        <div class="wheel-item" style="transform: rotate(270deg);"><img src="4.png" alt="四六级词汇"></div>
+    </div>
+</div>
         
         <p style="font-size: 12px; color: #999;">奖品由平台包邮到家，抽中后请填写收货信息</p>
         <button class="close-btn" onclick="closeModal('wheelOverlay')">×</button>
@@ -185,7 +177,11 @@
 
 <!-- 补充转盘CSS样式（加在<style>标签里） -->
 <style>
-.wheel-container {
+.wheel-container { position: relative; width: 280px; height: 280px; margin: 15px auto; cursor: pointer; }
+.wheel-pointer { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 25px solid #e74c3c; z-index: 10; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); }
+.wheel-rotate { width: 100%; height: 100%; border-radius: 50%; position: relative; overflow: hidden; border: 8px solid #fff; box-shadow: 0 0 15px rgba(231, 76, 60, 0.4); background: conic-gradient(#ff9a9e 0deg 90deg, #a18cd1 90deg 180deg, #fbc2eb 180deg 270deg, #84fab0 270deg 360deg); transition: transform 3s cubic-bezier(0.25, 0.1, 0.25, 1); }
+.wheel-item { position: absolute; top: 50%; left: 50%; width: 140px; height: 140px; transform-origin: 0% 0%; display: flex; justify-content: center; align-items: flex-start; padding-top: 10px; }
+.wheel-item img { width: 60px; height: 60px; border-radius: 8px; object-fit: cover; border: 2px solid #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
     position: relative;
     width: 260px;
     height: 260px;
