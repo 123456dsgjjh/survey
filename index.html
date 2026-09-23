@@ -238,6 +238,7 @@
 <div class="overlay" id="infoOverlay">
     <div class="modal">
         <h2 style="color:#27ae60; margin-bottom: 15px;">🏆 您抽中了包邮奖品！</h2>
+        <p id="finalPrizeText" style="font-size: 16px; color: #e74c3c; font-weight: bold; margin-bottom: 10px;"></p>
         <p style="font-size: 13px; color: #666; margin-bottom: 15px;">请填写您的收货信息，以便我们为您发货。</p>
         <form id="infoForm">
             <div class="form-group">
@@ -325,7 +326,8 @@
         const won = prizes[Math.floor(Math.random() * prizes.length)];
         
         // 在转盘下方显示抽中的奖品文字
-        const prizeTextEl = document.getElementById('prizeText');
+        const prizeTextEl = document.getElementById('finalPrizeText');
+        alert(\🎉 恭喜您抽中了：${won}！请填写收货信息。`);`
         if (prizeTextEl) {
             prizeTextEl.innerText = `🎉 恭喜您抽中了：${won}！`;
         }
