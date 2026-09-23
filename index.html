@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>大学生网络诈骗防范意识调查问卷</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f5f7fa; color: #333; line-height: 1.6; padding-bottom: 30px; }
+        .container { max-width: 600px; margin: 0 auto; background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-top: 10px; }
+        h1 { font-size: 20px; text-align: center; margin-bottom: 10px; color: #1a1a1a; }
+        .counter { text-align: center; font-size: 13px; color: #888; margin-bottom: 20px; background: #f0f0f0; padding: 5px 10px; border-radius: 20px; display: inline-block; margin-left: 50%; transform: translateX(-50%); }
+        .question { margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #eee; }
+        .question:last-child { border-bottom: none; }
+        .q-title { font-weight: 600; margin-bottom: 10px; font-size: 15px; color: #2c3e50; }
+        .q-title span { color: #e74c3c; margin-left: 4px; }
+        label { display: block; margin-bottom: 8px; font-size: 14px; cursor: pointer; padding: 6px 10px; border-radius: 6px; transition: background 0.2s; }
+        label:hover { background-color: #f9f9f9; }
+        input[type="radio"], input[type="checkbox"] { margin-right: 8px; transform: scale(1.1); vertical-align: middle; }
+        .btn-submit { display: block; width: 100%; padding: 14px; background: #e74c3c; color: #fff; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; transition: background 0.3s; margin-top: 20px; }
+        .btn-submit:active { background: #c0392b; }
+        .btn-submit:disabled { background: #ccc; cursor: not-allowed; }
+        
+        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; }
+        .overlay.active { display: flex; }
+        .modal { background: #fff; width: 90%; max-width: 400px; border-radius: 16px; padding: 25px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.2); position: relative; animation: popIn 0.3s ease-out; }
+        @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        
+        .wheel-img { width: 100%; max-width: 280px; margin: 15px auto; display: block; cursor: pointer; border-radius: 50%; box-shadow: 0 0 15px rgba(231, 76, 60, 0.4); transition: transform 0.1s; }
+        .wheel-img:active { transform: scale(0.95); }
+        .wheel-tip { font-size: 14px; color: #666; margin-bottom: 10px; }
+        
+        .form-group { margin-bottom: 15px; text-align: left; }
+        .form-group label { font-size: 13px; font-weight: bold; color: #555; padding: 0; margin-bottom: 4px; display: block; }
+        .form-group input { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; outline: none; }
+        .form-group input:focus { border-color: #e74c3c; }
+        .btn-confirm { width: 100%; padding: 12px; background: #27ae60; color: #fff; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        .btn-confirm:active { background: #219a52; }
+        .close-btn { position: absolute; top: 10px; right: 15px; font-size: 24px; color: #aaa; cursor: pointer; background: none; border: none; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="counter">已有 <span id="clickCount">0</span> 人参与抽奖</div>
+    <h1>大学生网络诈骗防范意识调查问卷</h1>
+
+    <form id="surveyForm">
+        <div class="question"><div class="q-title">1. 您的性别是？<span>*</span></div>
+            <label><input type="radio" name="q1" value="A" required> A. 男</label>
+            <label><input type="radio" name="q1" value="B" required> B. 女</label>
+        </div>
+        <div class="question"><div class="q-title">2. 您目前所在的年级是？<span>*</span></div>
+            <label><input type="radio" name="q2" value="A" required> A. 大一</label>
+            <label><input type="radio" name="q2" value="B" required> B. 大二</label>
+            <label><input type="radio" name="q2" value="C" required> C. 大三</label>
+            <label><input type="radio" name="q2" value="D" required> D. 大四</label>
+            <label><input type="radio" name="q2" value="E" required> E. 研究生及以上</label>
+        </div>
+        <div class="question"><div class="q-title">3. 您所学的专业类别是？<span>*</span></div>
+            <label><input type="radio" name="q3" value="A" required> A. 文科类</label>
+            <label><input type="radio" name="q3" value="B" required> B. 理工科类</label>
+            <label><input type="radio" name="q3" value="C" required> C. 经管类</label>
+            <label><input type="radio" name="q3" value="D" required> D. 艺术与设计类</label>
+            <label><input type="radio" name="q3" value="E" required> E. 医学类</label>
+            <label><input type="radio" name="q3" value="F" required> F. 其他</label>
+        </div>
+        <div class="question"><div class="q-title">4. 您是否了解网络诈骗的基本概念？<span>*</span></div>
+            <label><input type="radio" name="q4" value="A" required> A. 非常了解</label>
+            <label><input type="radio" name="q4" value="B" required> B. 比较了解</label>
+            <label><input type="radio" name="q4" value="C" required> C. 一般了解</label>
+            <label><input type="radio" name="q4" value="D" required> D. 不太了解</label>
+            <label><input type="radio" name="q4" value="E" required> E. 完全不了解</label>
+        </div>
+        <div class="question"><div class="q-title">5. 您通过哪些渠道了解过网络诈骗？（可多选）<span>*</span></div>
+            <label><input type="checkbox" name="q5" value="A"> A. 学校安全教育或思政课程</label>
+            <label><input type="checkbox" name="q5" value="B"> B. 新闻媒体</label>
+            <label><input type="checkbox" name="q5" value="C"> C. 短视频平台</label>
+            <label><input type="checkbox" name="q5" value="D"> D. 家庭及亲友提醒</label>
+            <label><input type="checkbox" name="q5" value="E"> E. 公安机关反诈宣传</label>
+            <label><input type="checkbox" name="q5" value="F"> F. 个人亲身经历</label>
+        </div>
+        <div class="question"><div class="q-title">6. 您认为自己识别网络诈骗的能力如何？<span>*</span></div>
+            <label><input type="radio" name="q6" value="A" required> A. 非常强，能够准确识别大多数诈骗</label>
+            <label><input type="radio" name="q6" value="B" required> B. 比较强，通常能够识别</label>
+            <label><input type="radio" name="q6" value="C" required> C. 一般，需要进一步学习</label>
+            <label><input type="radio" name="q6" value="D" required> D. 较弱，容易受到误导</label>
+        </div>
+        <div class="question"><div class="q-title">7. 当您收到陌生链接或陌生人发来的文件时，您通常会怎么做？<span>*</span></div>
+            <label><input type="radio" name="q7" value="A" required> A. 直接点击或打开</label>
+            <label><input type="radio" name="q7" value="B" required> B. 先判断来源，再决定是否打开</label>
+            <label><input type="radio" name="q7" value="C" required> C. 通过官方渠道核实后再操作</label>
+            <label><input type="radio" name="q7" value="D" required> D. 直接忽略或删除</label>
+        </div>
+        <div class="question"><div class="q-title">8. 您是否遇到过疑似网络诈骗的信息或电话？<span>*</span></div>
+            <label><input type="radio" name="q8" value="A" required> A. 经常遇到</label>
+            <label><input type="radio" name="q8" value="B" required> B. 偶尔遇到</label>
+            <label><input type="radio" name="q8" value="C" required> C. 很少遇到</label>
+            <label><input type="radio" name="q8" value="D" required> D. 从未遇到</label>
+        </div>
+        <div class="question"><div class="q-title">9. 您是否有过疑似网络诈骗的实际经历？（可多选）<span>*</span></div>
+            <label><input type="checkbox" name="q9" value="A"> A. 没有遇到过</label>
+            <label><input type="checkbox" name="q9" value="B"> B. 刷单或兼职诈骗</label>
+            <label><input type="checkbox" name="q9" value="C"> C. 网络购物、退款诈骗</label>
+            <label><input type="checkbox" name="q9" value="D"> D. 冒充客服或熟人诈骗</label>
+            <label><input type="checkbox" name="q9" value="E"> E. 游戏交易诈骗</label>
+            <label><input type="checkbox" name="q9" value="F"> F. 网络交友诈骗</label>
+        </div>
+        <div class="question"><div class="q-title">10. 当您遇到疑似网络诈骗时，您通常会采取哪些措施？（可多选）<span>*</span></div>
+            <label><input type="checkbox" name="q10" value="A"> A. 立即停止操作</label>
+            <label><input type="checkbox" name="q10" value="B"> B. 通过官方渠道核实信息</label>
+            <label><input type="checkbox" name="q10" value="C"> C. 向学校老师或辅导员咨询</label>
+            <label><input type="checkbox" name="q10" value="D"> D. 向家人或朋友求助</label>
+            <label><input type="checkbox" name="q10" value="E"> E. 向公安机关或反诈平台咨询、举报</label>
+            <label><input type="checkbox" name="q10" value="F"> F. 自行判断后继续操作</label>
+        </div>
+        <div class="question"><div class="q-title">11. 当陌生人以“兼职赚钱、轻松高收益”为诱因要求您先交押金时，您会怎么做？<span>*</span></div>
+            <label><input type="radio" name="q11" value="A" required> A. 立即拒绝</label>
+            <label><input type="radio" name="q11" value="B" required> B. 先核实招聘信息和单位</label>
+            <label><input type="radio" name="q11" value="C" required> C. 视金额大小决定</label>
+            <label><input type="radio" name="q11" value="D" required> D. 可能尝试</label>
+        </div>
+        <div class="question"><div class="q-title">12. 当陌生人声称自己是电商客服，要求您提供验证码或进行转账时，您会怎么做？<span>*</span></div>
+            <label><input type="radio" name="q12" value="A" required> A. 立即拒绝并通过官方渠道核实</label>
+            <label><input type="radio" name="q12" value="B" required> B. 先询问对方具体情况</label>
+            <label><input type="radio" name="q12" value="C" required> C. 根据对方提供的信息判断</label>
+            <label><input type="radio" name="q12" value="D" required> D. 可能按照对方要求操作</label>
+        </div>
+        <div class="question"><div class="q-title">13. 当陌生人进宿舍让你扫码进“校园网服务中心”等群，你会怎么做？<span>*</span></div>
+            <label><input type="radio" name="q13" value="A" required> A. 拒绝</label>
+            <label><input type="radio" name="q13" value="B" required> B. 先询问对方具体情况</label>
+            <label><input type="radio" name="q13" value="C" required> C. 按照对方要求操作</label>
+        </div>
+        <div class="question"><div class="q-title">14. 您是否会主动核实网络信息的真实性？<span>*</span></div>
+            <label><input type="radio" name="q14" value="A" required> A. 总是会</label>
+            <label><input type="radio" name="q14" value="B" required> B. 经常会</label>
+            <label><input type="radio" name="q14" value="C" required> C. 偶尔会</label>
+            <label><input type="radio" name="q14" value="D" required> D. 很少会</label>
+            <label><input type="radio" name="q14" value="E" required> E. 几乎不会</label>
+        </div>
+        <div class="question"><div class="q-title">15. 您认为自己容易受到哪些网络诈骗诱因影响？（可多选）<span>*</span></div>
+            <label><input type="checkbox" name="q15" value="A"> A. 高额收益诱惑</label>
+            <label><input type="checkbox" name="q15" value="B"> B. 低价购物</label>
+            <label><input type="checkbox" name="q15" value="C"> C. 兼职赚钱需求</label>
+            <label><input type="checkbox" name="q15" value="D"> D. 熟人或权威身份信任</label>
+            <label><input type="checkbox" name="q15" value="E"> E. 紧急情况造成的心理压力</label>
+            <label><input type="checkbox" name="q15" value="F"> F. 情感需求</label>
+            <label><input type="checkbox" name="q15" value="G"> G. 好奇心或侥幸心理</label>
+        </div>
+
+        <button type="submit" class="btn-submit" id="submitBtn">提交问卷并抽奖</button>
+    </form>
+</div>
+
+<div class="overlay" id="wheelOverlay">
+    <div class="modal">
+        <h2 style="color:#e74c3c; margin-bottom: 5px;">🎉 恭喜您获得抽奖机会！</h2>
+        <p class="wheel-tip">点击下方转盘，抽取您的专属福利</p>
+        <img src="https://img.alicdn.com/imgextra/i3/O1CN01Z7zq5j1P4k5c7q5c7_!!6000000001795-2-tps-500-500.png" alt="转盘" class="wheel-img" id="wheelBtn" onclick="startWheel()">
+        <p style="font-size: 12px; color: #999;">奖品由平台包邮到家，抽中后请填写收货信息</p>
+        <button class="close-btn" onclick="closeModal('wheelOverlay')">×</button>
+    </div>
+</div>
+
+<div class="overlay" id="infoOverlay">
+    <div class="modal">
+        <h2 style="color:#27ae60; margin-bottom: 15px;">🏆 您抽中了包邮奖品！</h2>
+        <p style="font-size: 13px; color: #666; margin-bottom: 15px;">请填写您的收货信息，以便我们为您发货。</p>
+        <form id="infoForm">
+            <div class="form-group">
+                <label>收货人姓名 <span style="color:red;">*</span></label>
+                <input type="text" id="userName" required placeholder="请输入真实姓名">
+            </div>
+            <div class="form-group">
+                <label>联系电话 <span style="color:red;">*</span></label>
+                <input type="tel" id="userPhone" required placeholder="请输入11位手机号码" pattern="1[3-9]\d{9}">
+            </div>
+            <div class="form-group">
+                <label>收货地址 <span style="color:red;">*</span></label>
+                <input type="text" id="userAddress" required placeholder="请输入省、市、区及详细地址">
+            </div>
+            <button type="submit" class="btn-confirm">确认提交，等待发货</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    const SUPABASE_URL = 'https://qweraiifnfthwxieuapl.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_OH-UFj1NoXl1Ui6I1GEc6Q_suTSHPJR';
+
+    const { createClient } = supabase;
+    const _supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    async function updateClickCount() {
+        try {
+            const { count, error } = await _supabase
+                .from('prize_winners')
+                .select('*', { count: 'exact', head: true });
+            if (!error && count !== null) {
+                document.getElementById('clickCount').innerText = count;
+            }
+        } catch (err) { console.error('获取人数失败', err); }
+    }
+    updateClickCount();
+
+    document.getElementById('surveyForm').addEventListener('submit', async function(e) {
+        e.preventDefault(); 
+        const submitBtn = document.getElementById('submitBtn');
+        submitBtn.disabled = true;
+        submitBtn.innerText = '提交中...';
+
+        const formData = new FormData(this);
+        const data = {
+            q1: formData.get('q1'), q2: formData.get('q2'), q3: formData.get('q3'), q4: formData.get('q4'),
+            q5: formData.getAll('q5'),
+            q6: formData.get('q6'), q7: formData.get('q7'), q8: formData.get('q8'),
+            q9: formData.getAll('q9'),
+            q10: formData.getAll('q10'),
+            q11: formData.get('q11'), q12: formData.get('q12'), q13: formData.get('q13'), q14: formData.get('q14'),
+            q15: formData.getAll('q15')
+        };
+
+        try {
+            const { error } = await _supabase.from('survey_responses').insert([data]);
+            if (error) throw error;
+            document.getElementById('wheelOverlay').classList.add('active');
+        } catch (error) {
+            console.error('问卷提交失败:', error);
+            alert('问卷提交失败，请检查网络后重试。\n错误信息: ' + error.message);
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.innerText = '提交问卷并抽奖';
+        }
+    });
+
+    function startWheel() {
+        closeModal('wheelOverlay');
+        setTimeout(() => { document.getElementById('infoOverlay').classList.add('active'); }, 200);
+    }
+
+    function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
+    document.getElementById('infoForm').addEventListener('submit', async function(e) {
+        e.preventDefault(); 
+        const name = document.getElementById('userName').value;
+        const phone = document.getElementById('userPhone').value;
+        const address = document.getElementById('userAddress').value;
+        if(!name || !phone || !address) { alert('请完整填写收货信息！'); return; }
+
+        const btn = this.querySelector('.btn-confirm');
+        btn.disabled = true;
+        btn.innerText = '提交中...';
+
+        try {
+            const { error } = await _supabase.from('prize_winners').insert([{ name, phone, address }]);
+            if (error) throw error;
+            alert('提交成功！我们将尽快为您安排包邮发货。');
+            closeModal('infoOverlay');
+            document.getElementById('infoForm').reset();
+            document.getElementById('surveyForm').reset();
+            updateClickCount();
+        } catch (error) {
+            console.error('收货信息提交失败:', error);
+            alert('提交失败，请重试。\n错误信息: ' + error.message);
+        } finally {
+            btn.disabled = false;
+            btn.innerText = '确认提交，等待发货';
+        }
+    });
+</script>
+
+</body>
+</html>
