@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#fff7ec">
+  <title>校园调查问卷 · 幸运抽奖</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <main class="page">
+    <section class="hero card">
+      <div class="badge">校园调查活动</div>
+      <h1>完成问卷，转盘抽好礼</h1>
+      <p>认真填写问卷，提交后即可参加随机抽奖。礼品包邮到家。</p>
+      <div class="stats"><span id="participantCount">—</span> 人已参与</div>
+    </section>
+
+    <form id="surveyForm" class="card survey"></form>
+
+    <section class="note card">
+      <strong>活动说明</strong>
+      <p>每台设备默认仅记录一次有效提交。抽奖结果由服务器端规则决定；中奖后再填写收货信息。</p>
+    </section>
+  </main>
+
+  <div id="wheelModal" class="modal hidden" aria-hidden="true">
+    <div class="modal-panel wheel-panel">
+      <button class="close" id="closeWheel" aria-label="关闭">×</button>
+      <h2>幸运转盘</h2>
+      <div class="wheel-wrap">
+        <div class="pointer">▼</div>
+        <div id="wheel" class="wheel">
+          <div class="wheel-center">转</div>
+        </div>
+      </div>
+      <button id="spinButton" class="primary big" disabled>开始抽奖</button>
+      <p id="spinStatus" class="muted">问卷提交成功，请点击开始抽奖。</p>
+    </div>
+  </div>
+
+<div id="resultModal" class="modal hidden" aria-hidden="true">
+  <div class="modal-panel result-panel">
+
+    <div class="gift">🎁</div>
+
+    <h2>恭喜你</h2>
+
+    <img
+      id="prizeImage"
+      class="prize-image"
+      src=""
+      alt="中奖奖品"
+    >
+
+    <p id="prizeText" class="prize-text"></p>
+
+    <p id="resultTip" class="muted"></p>
+
+    <button id="claimButton" class="primary big">
+      填写收货信息
+    </button>
+
+  </div>
+</div>
+
+  <div id="shippingModal" class="modal hidden" aria-hidden="true">
+    <div class="modal-panel form-panel">
+      <button class="close" id="closeShipping" aria-label="关闭">×</button>
+      <h2>领奖信息</h2>
+      <p class="muted">仅用于本次礼品寄送。</p>
+      <form id="shippingForm">
+        <label>收件人<input name="name" maxlength="30" required placeholder="请输入姓名"></label>
+        <label>手机号<input name="phone" inputmode="tel" maxlength="20" required placeholder="请输入手机号"></label>
+        <label>收货地址<textarea name="address" maxlength="200" rows="4" required placeholder="省/市/区 + 详细地址"></textarea></label>
+        <button class="primary big" type="submit">提交领奖信息</button>
+        <p id="shippingStatus" class="muted"></p>
+      </form>
+    </div>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
