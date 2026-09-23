@@ -153,15 +153,90 @@
     </form>
 </div>
 
+<!-- 弹窗1：转盘抽奖 (带四款奖品) -->
 <div class="overlay" id="wheelOverlay">
     <div class="modal">
         <h2 style="color:#e74c3c; margin-bottom: 5px;">🎉 恭喜您获得抽奖机会！</h2>
         <p class="wheel-tip">点击下方转盘，抽取您的专属福利</p>
-        <img src="https://img.alicdn.com/imgextra/i3/O1CN01Z7zq5j1P4k5c7q5c7_!!6000000001795-2-tps-500-500.png" alt="转盘" class="wheel-img" id="wheelBtn" onclick="startWheel()">
+        
+        <!-- 纯CSS绘制的精美转盘 -->
+        <div class="wheel-container" id="wheelBtn" onclick="startWheel()">
+            <div class="wheel-pointer"></div>
+            <div class="wheel-rotate">
+                <div class="wheel-item" style="transform: rotate(0deg);">
+                    <span>草稿纸</span>
+                </div>
+                <div class="wheel-item" style="transform: rotate(90deg);">
+                    <span>果汁笔</span>
+                </div>
+                <div class="wheel-item" style="transform: rotate(180deg);">
+                    <span>抽纸</span>
+                </div>
+                <div class="wheel-item" style="transform: rotate(270deg);">
+                    <span>四六级词汇</span>
+                </div>
+            </div>
+        </div>
+        
         <p style="font-size: 12px; color: #999;">奖品由平台包邮到家，抽中后请填写收货信息</p>
         <button class="close-btn" onclick="closeModal('wheelOverlay')">×</button>
     </div>
 </div>
+
+<!-- 补充转盘CSS样式（加在<style>标签里） -->
+<style>
+.wheel-container {
+    position: relative;
+    width: 260px;
+    height: 260px;
+    margin: 15px auto;
+    cursor: pointer;
+}
+.wheel-pointer {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-top: 25px solid #e74c3c;
+    z-index: 10;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+}
+.wheel-rotate {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+    border: 8px solid #fff;
+    box-shadow: 0 0 15px rgba(231, 76, 60, 0.4);
+    background: conic-gradient(#ff9a9e 0deg 90deg, #a18cd1 90deg 180deg, #fbc2eb 180deg 270deg, #84fab0 270deg 360deg);
+    transition: transform 3s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+.wheel-item {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 130px;
+    height: 130px;
+    transform-origin: 0% 0%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    padding-bottom: 15px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+    text-shadow: 1px 1px 0px rgba(255,255,255,0.8);
+}
+.wheel-item span {
+    writing-mode: vertical-lr;
+    letter-spacing: 2px;
+}
+</style>
 
 <div class="overlay" id="infoOverlay">
     <div class="modal">
