@@ -216,16 +216,23 @@
     const { createClient } = supabase;
     const _supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        // 生成一个随机数（比如 500 到 2000 之间），让页面看起来热闹
+    // 初始人数（你可以根据实际情况调整，比如从 30 开始）
+    let fakeCount = 30;
+
+    // 显示当前人数
     function updateClickCount() {
-        const min = 100;  // 最少显示多少人
-        const max = 400; // 最多显示多少人
-        const randomCount = Math.floor(Math.random() * (max - min + 1)) + min;
-        document.getElementById('clickCount').innerText = randomCount;
+        document.getElementById('clickCount').innerText = fakeCount;
     }
-    
-    // 页面加载时，直接生成随机数
+
+    // 页面加载时，先显示一次
     updateClickCount();
+
+    // 核心逻辑：每 2 小时增加 1 人
+    // 2小时 = 7200000 毫秒
+    setInterval(() => {
+        fakeCount += 1; 
+        updateClickCount();
+    }, 7200000); 
 
     document.getElementById('surveyForm').addEventListener('submit', async function(e) {
         e.preventDefault(); 
