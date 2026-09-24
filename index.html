@@ -216,23 +216,38 @@
     const { createClient } = supabase;
     const _supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    // 初始人数（你可以根据实际情况调整，比如从 30 开始）
-    let fakeCount = 30;
-
-    // 显示当前人数
-    function updateClickCount() {
-        document.getElementById('clickCount').innerText = fakeCount;
+        // 从数据库获取开始时间，并计算当前人数
+    async function updateClickCount() {
+        try {
+            // 1. 去数据库查开始时间
+            const { data, error } = await _supabase
+                .from('timer')
+                .select('start_time')
+                .eq('id', 1)
+                .single();
+            
+            if (error || !data) throw error;
+            
+            // 2. 计算从开始到现在过了多少个小时
+            const startTime = new Date(data.start_time);
+            const now = new Date();
+            const hoursPassed = Math.floor((now - startTime) / (1000 * 60 * 60)); // 过去的小时数
+            
+            // 3. 最终人数 = 350 + 过去的小时数/2
+            const finalCount = 350 + Math.floor(hoursPassed / 2);
+            
+            // 4. 更新页面
+            document.getElementById('clickCount').innerText = finalCount;
+            
+        } catch (err) {
+            console.error('获取人数失败', err);
+            // 如果数据库查不到，就默认显示350，防止页面报错
+            document.getElementById('clickCount').innerText = 350;
+        }
     }
 
-    // 页面加载时，先显示一次
+    // 页面加载时执行
     updateClickCount();
-
-    // 核心逻辑：每 2 小时增加 1 人
-    // 2小时 = 7200000 毫秒
-    setInterval(() => {
-        fakeCount += 1; 
-        updateClickCount();
-    }, 7200000); 
 
     document.getElementById('surveyForm').addEventListener('submit', async function(e) {
         e.preventDefault(); 
