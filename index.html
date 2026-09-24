@@ -148,6 +148,16 @@
             <label><input type="checkbox" name="q15" value="F"> F. 情感需求</label>
             <label><input type="checkbox" name="q15" value="G"> G. 好奇心或侥幸心理</label>
         </div>
+                <div class="question"><div class="q-title">16. 当意识到被骗时，您会怎么做好证据留存？（可多选）<span>*</span></div>
+            <label><input type="checkbox" name="q16" value="A"> A. 完整保留聊天记录及转账记录</label>
+            <label><input type="checkbox" name="q16" value="B"> B. 完整保留平台交易凭证</label>
+            <label><input type="checkbox" name="q16" value="C"> C. 完整保留网页截图</label>
+        </div>
+        
+        <div class="question"><div class="q-title">17. 当好兄弟或好姐妹跟你说这是诈骗，你会？<span>*</span></div>
+            <label><input type="radio" name="q17" value="A" required> A. 怒发冲冠：“你就是怕我好起来”</label>
+            <label><input type="radio" name="q17" value="B" required> B. 认真求证，及时止损</label>
+        </div>
 
         <button type="submit" class="btn-submit" id="submitBtn">提交问卷并抽奖</button>
     </form>
@@ -256,14 +266,16 @@
         submitBtn.innerText = '提交中...';
 
         const formData = new FormData(this);
-        const data = {
+                const data = {
             q1: formData.get('q1'), q2: formData.get('q2'), q3: formData.get('q3'), q4: formData.get('q4'),
             q5: formData.getAll('q5'),
             q6: formData.get('q6'), q7: formData.get('q7'), q8: formData.get('q8'),
             q9: formData.getAll('q9'),
             q10: formData.getAll('q10'),
             q11: formData.get('q11'), q12: formData.get('q12'), q13: formData.get('q13'), q14: formData.get('q14'),
-            q15: formData.getAll('q15')
+            q15: formData.getAll('q15'),
+            q16: formData.getAll('q16'), // 新增：多选
+            q17: formData.get('q17')      // 新增：单选
         };
 
         try {
